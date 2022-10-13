@@ -1,19 +1,3 @@
-const getRandomIntInclusive = function (a, b) {
-  if (a < 0 || b < 0) {
-    return NaN;
-  }
-
-  const min = Math.ceil(Math.min(a, b));
-  const max = Math.floor(Math.max(a, b));
-
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-
-const checkStringLength = (string, length) => string.length <= length;
-
-checkStringLength('', 142);
-
 const PHOTO_OBJECT_COUNT = 25;
 
 const DESCRIPTION_PHOTO = [
@@ -44,31 +28,28 @@ const DESCRIPTION_PHOTO = [
   'Фото верблюда',
 ];
 
-const indexId = [];
-const getIndexId = () => {
-  const index = getRandomIntInclusive(1, 25);
-  return (indexId.includes(index)) ? getIndexId() : indexId.push(index);
+const getRandomIntInclusive = function (a, b) {
+  if (a < 0 || b < 0) {
+    return NaN;
+  }
+
+  const min = Math.ceil(Math.min(a, b));
+  const max = Math.floor(Math.max(a, b));
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const indexUrl = [];
-const getIndexUrl = () => {
-  const index = getRandomIntInclusive(1, 25);
-  return (indexUrl.includes(index)) ? getIndexUrl() : indexUrl.push(index);
-};
+const createPhotoObject = (index) => ({
 
-
-const createPhotoObject = () => ({
-
-  id: getIndexId(),
-  url: `photos/${getIndexUrl()}.jpg`,
+  id: index,
+  url: `photos/${index}.jpg`,
   description: DESCRIPTION_PHOTO[getRandomIntInclusive(0, DESCRIPTION_PHOTO.length - 1)],
   likes: getRandomIntInclusive(15, 200),
   comments: getRandomIntInclusive(0, 200),
-
 });
 
-const photoObject = () => Array.from({
+const getPhotoObject = () => Array.from({
   length: PHOTO_OBJECT_COUNT
-}, createPhotoObject);
+}, (arrayElement, index) => createPhotoObject(index + 1));
 
-photoObject();
+getPhotoObject();
