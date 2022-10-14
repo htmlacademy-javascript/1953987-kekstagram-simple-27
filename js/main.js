@@ -39,7 +39,7 @@ const getRandomIntInclusive = function (a, b) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const createPhotoObject = (index) => ({
+const createPhotocard = (index) => ({
 
   id: index,
   url: `photos/${index}.jpg`,
@@ -48,8 +48,8 @@ const createPhotoObject = (index) => ({
   comments: getRandomIntInclusive(0, 200),
 });
 
-const getPhotoObject = () => Array.from({
+const createPhotos = () => Array.from({
   length: PHOTO_OBJECT_COUNT
-}, (arrayElement, index) => createPhotoObject(index + 1));
+}, (arrayElement, index) => createPhotocard(index + 1));
 
-getPhotoObject();
+createPhotos();
