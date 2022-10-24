@@ -1,5 +1,1 @@
-import {
-  createPhotos
-} from './data.js';
-
-createPhotos();
+import './thumbnails.js';
