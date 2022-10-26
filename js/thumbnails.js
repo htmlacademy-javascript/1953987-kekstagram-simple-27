@@ -1,14 +1,7 @@
-import {
-  createPhotos
-} from './data.js';
 const thumbnailsContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content;
 
-const thumbnailsCollection = createPhotos();
-
-const thumbnailsFragment = document.createDocumentFragment();
-
-thumbnailsCollection.forEach(({
+const renderThumbnail = (({
   url,
   likes,
   comments,
@@ -17,7 +10,12 @@ thumbnailsCollection.forEach(({
   thumbnailElement.querySelector('.picture__img').src = url;
   thumbnailElement.querySelector('.picture__likes').textContent = likes;
   thumbnailElement.querySelector('.picture__comments').textContent = comments;
-  thumbnailsFragment.append(thumbnailElement);
+  return thumbnailElement;
 });
 
-thumbnailsContainer.append(thumbnailsFragment);
+const renderThumbnails = (photos) => thumbnailsContainer.append(...photos.map(renderThumbnail));
+
+
+export {
+  renderThumbnails
+};
