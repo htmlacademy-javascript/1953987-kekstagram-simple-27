@@ -21,11 +21,7 @@ const pristine = new Pristine(formElement, {
   errorTextClass: 'img-upload__text__error'
 });
 
-function validateComment(value) {
-  return value.length >= 20 && value.length <= 140;
-}
-
-pristine.addValidator(commentElement, validateComment, 'От 20 до 140 символов');
+const validateComment = (value) => value.length >= 20 && value.length <= 140;
 
 const onModalEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -35,14 +31,14 @@ const onModalEscKeydown = (evt) => {
   }
 };
 
-const openModalElement = () => {
+const onOpenModalElement = () => {
   editorPhotoElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
 
   document.addEventListener('keydown', onModalEscKeydown);
 };
 
-const closeModalElement = () => {
+const onCloseModalElement = () => {
   editorPhotoElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   uploadElement.value = '';
@@ -53,27 +49,25 @@ const closeModalElement = () => {
   document.removeEventListener('keydown', onModalEscKeydown);
 };
 
+const onFormSubmit = (evt) => {
+  const isValid = pristine.validate();
+
+  if (!isValid) {
+    evt.preventDefault();
+  }
+};
+
+
 const addFormListener = () => {
 
-  uploadElement.addEventListener('change', () => {
-    openModalElement();
-  });
+  uploadElement.addEventListener('change', (onOpenModalElement));
 
-  uploadCloseElement.addEventListener('click', () => {
-    closeModalElement();
-  });
+  uploadCloseElement.addEventListener('click', (onCloseModalElement));
 
-  formElement.addEventListener('submit', (evt) => {
-    const isValid = pristine.validate();
-
-    if (!isValid) {
-      evt.preventDefault();
-    }
-
-  });
-
+  pristine.addValidator(commentElement, validateComment, 'От 20 до 140 символов');
+  formElement.addEventListener('submit', onFormSubmit);
 };
 
 export {
-  addFormListener
+  addFormListener,
 };
