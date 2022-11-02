@@ -63,8 +63,13 @@ const addFormListener = () => {
     closeModalElement();
   });
 
-  formElement.addEventListener('submit', () => {
-    pristine.validate();
+  formElement.addEventListener('submit', (evt) => {
+    const isValid = pristine.validate();
+
+    if (!isValid) {
+      evt.preventDefault();
+    }
+
   });
 
 };
