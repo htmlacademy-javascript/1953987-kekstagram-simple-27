@@ -11,15 +11,14 @@ const uploadCloseElement = formElement.querySelector('#upload-cancel');
 const scaleSizeElement = formElement.querySelector('.scale__control');
 const effectLevelElement = formElement.querySelector('.effect-level__value');
 const effectRadioNoneElement = formElement.querySelector('#effect-none');
-const buttonSubmitElement = formElement.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(formElement, {
-  classTo: 'text__description',
-  errorClass: 'text__description--invalid',
-  successClass: 'text__description--valid',
-  errorTextParent: 'text__description',
-  errorTextTag: 'span',
-  errorTextClass: 'text__description__error'
+  classTo: 'img-upload__text',
+  errorClass: 'img-upload__text--invalid',
+  successClass: 'img-upload__text--valid',
+  errorTextParent: 'img-upload__text',
+  errorTextTag: 'div',
+  errorTextClass: 'img-upload__text__error'
 });
 
 function validateComment(value) {
@@ -64,13 +63,8 @@ const addFormListener = () => {
     closeModalElement();
   });
 
-  formElement.addEventListener('change', () => {
-    const isValid = pristine.validate();
-    if (!isValid) {
-      buttonSubmitElement.disabled = true;
-    } else {
-      buttonSubmitElement.disabled = false;
-    }
+  formElement.addEventListener('submit', () => {
+    pristine.validate();
   });
 
 };
