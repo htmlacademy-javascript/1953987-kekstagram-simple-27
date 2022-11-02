@@ -5,7 +5,12 @@ import {
 import {
   renderThumbnails
 } from './thumbnails.js';
+import {
+  addFormListener
+} from './form.js';
 
 
 const photos = createPhotos();
 renderThumbnails(photos);
+
+addFormListener();
