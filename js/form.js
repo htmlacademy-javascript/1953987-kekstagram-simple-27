@@ -1,6 +1,9 @@
 import {
   isEscapeKey
 } from './util.js';
+import {
+  resetScale
+} from './scale.js';
 
 const bodyElement = document.querySelector('body');
 const formElement = bodyElement.querySelector('.img-upload__form');
@@ -11,14 +14,12 @@ const uploadCloseElement = formElement.querySelector('#upload-cancel');
 const scaleSizeElement = formElement.querySelector('.scale__control');
 const effectLevelElement = formElement.querySelector('.effect-level__value');
 const effectRadioNoneElement = formElement.querySelector('#effect-none');
+const imageElement = document.querySelector('.img-upload__preview img');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__text',
-  errorClass: 'img-upload__text--invalid',
-  successClass: 'img-upload__text--valid',
   errorTextParent: 'img-upload__text',
   errorTextTag: 'div',
-  errorTextClass: 'img-upload__text__error'
 });
 
 const validateComment = (value) => value.length >= 20 && value.length <= 140;
@@ -41,6 +42,7 @@ const onOpenModalElement = () => {
 const onCloseModalElement = () => {
   editorPhotoElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
+  resetScale();
   uploadElement.value = '';
   commentElement.value = '';
   scaleSizeElement.value = '100%';
@@ -70,4 +72,6 @@ const addFormListener = () => {
 
 export {
   addFormListener,
+  imageElement,
+  formElement
 };
