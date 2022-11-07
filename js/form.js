@@ -4,6 +4,9 @@ import {
 import {
   resetScale
 } from './scale.js';
+import {
+  resetEffect
+} from './effect.js';
 
 const bodyElement = document.querySelector('body');
 const formElement = bodyElement.querySelector('.img-upload__form');
@@ -14,7 +17,8 @@ const uploadCloseElement = formElement.querySelector('#upload-cancel');
 const scaleSizeElement = formElement.querySelector('.scale__control');
 const effectLevelElement = formElement.querySelector('.effect-level__value');
 const effectRadioNoneElement = formElement.querySelector('#effect-none');
-const imageElement = document.querySelector('.img-upload__preview img');
+const inputValueScaleElement = formElement.querySelector('.scale__control--value');
+
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__text',
@@ -35,6 +39,7 @@ const onModalEscKeydown = (evt) => {
 const onOpenModalElement = () => {
   editorPhotoElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  inputValueScaleElement.value = '100%';
 
   document.addEventListener('keydown', onModalEscKeydown);
 };
@@ -43,6 +48,7 @@ const onCloseModalElement = () => {
   editorPhotoElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   resetScale();
+  resetEffect();
   uploadElement.value = '';
   commentElement.value = '';
   scaleSizeElement.value = '100%';
@@ -72,6 +78,5 @@ const addFormListener = () => {
 
 export {
   addFormListener,
-  imageElement,
-  formElement
+  inputValueScaleElement
 };
