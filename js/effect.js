@@ -20,12 +20,14 @@ const EFFECT = {
     min: 0,
     max: 1,
     step: 0.1,
+    unit: ''
   },
   sepia: {
     style: 'sepia',
     min: 0,
     max: 1,
     step: 0.1,
+    unit: ''
   },
   marvin: {
     style: 'invert',
@@ -46,13 +48,14 @@ const EFFECT = {
     min: 0,
     max: 3,
     step: 0.1,
+    unit: ''
   },
 };
 
 const DEFAULT_EFFECT = EFFECT['none'];
 let chosenEffect = DEFAULT_EFFECT;
 
-const isDefoult = () => chosenEffect === DEFAULT_EFFECT;
+const isDefault = () => chosenEffect === DEFAULT_EFFECT;
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -76,7 +79,7 @@ const updateSlider = () => {
     step: chosenEffect.step,
   });
 
-  if (isDefoult()) {
+  if (isDefault()) {
     sliderContainerElement.classList.add('hidden');
   }
 };
@@ -86,7 +89,7 @@ const onFormChange = (evt) => {
     return;
   }
   chosenEffect = EFFECT[evt.target.value];
-  console.log(chosenEffect);
+  imageElement.classList.add(`effects__preview--${evt.target.value}`);
   updateSlider();
 };
 
@@ -94,12 +97,11 @@ const onSliderUpdate = () => {
   imageElement.style.filter = 'none';
   imageElement.className = '';
   effectLevelElement.value = '';
-  if (isDefoult()) {
+  if (isDefault()) {
     return;
   }
   const sliderValue = sliderElement.noUiSlider.get();
   imageElement.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
-  imageElement.classList.add(`effects__preview--${chosenEffect}`);
   effectLevelElement.value = sliderValue;
 };
 
