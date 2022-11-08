@@ -19,7 +19,6 @@ const effectLevelElement = formElement.querySelector('.effect-level__value');
 const effectRadioNoneElement = formElement.querySelector('#effect-none');
 const inputValueScaleElement = formElement.querySelector('.scale__control--value');
 
-
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__text',
   errorTextParent: 'img-upload__text',

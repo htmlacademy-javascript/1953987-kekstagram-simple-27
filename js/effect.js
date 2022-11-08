@@ -56,17 +56,7 @@ const DEFAULT_EFFECT = EFFECT['none'];
 let chosenEffect = DEFAULT_EFFECT;
 
 const isDefault = () => chosenEffect === DEFAULT_EFFECT;
-
-noUiSlider.create(sliderElement, {
-  range: {
-    min: DEFAULT_EFFECT.min,
-    max: DEFAULT_EFFECT.max,
-  },
-  start: DEFAULT_EFFECT.max,
-  step: DEFAULT_EFFECT.step,
-  connect: 'lower',
-});
-
+sliderContainerElement.classList.add('hidden');
 
 const updateSlider = () => {
   sliderContainerElement.classList.remove('hidden');
@@ -110,6 +100,16 @@ const resetEffect = () => {
   updateSlider();
 };
 
+noUiSlider.create(sliderElement, {
+  range: {
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
+  },
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
+  connect: 'lower',
+});
+updateSlider();
 
 formElement.addEventListener('change', (onFormChange));
 sliderElement.noUiSlider.on('update', onSliderUpdate);
