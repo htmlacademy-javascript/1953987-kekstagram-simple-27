@@ -9,7 +9,6 @@ import {
   addFormListener
 } from './form.js';
 
-
 const photos = createPhotos();
 renderThumbnails(photos);
 
