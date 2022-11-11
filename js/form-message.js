@@ -4,14 +4,14 @@ import {
 
 const ALERT_SHOW_TIME = 5000;
 
-const errorTemplate = document.querySelector('#error').content;
-const bodyElement = document.querySelector('body');
-const successTemplate = document.querySelector('#success').content;
+const bodyElement = document.body;
+const errorTemplate = document.body.querySelector('#error').content;
+const successTemplate = document.body.querySelector('#success').content;
 
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = '100';
+  alertContainer.style.zIndex = '10';
   alertContainer.style.position = 'absolute';
   alertContainer.style.left = '0';
   alertContainer.style.top = '0';
@@ -38,18 +38,20 @@ const addErrorMessage = () => {
 
   const deleteMessage = () => {
     bodyElement.querySelector('.error').remove();
+    document.removeEventListener('keydown', onModalEscKeydown);
+    window.removeEventListener('click', onWindowClick);
   };
 
-  const onModalEscKeydown = (evt) => {
+  function onModalEscKeydown (evt) {
     if (isEscapeKey(evt)) {
       deleteMessage();
     }
-  };
-  const onWindowClick = (evt) => {
+  }
+  function onWindowClick (evt) {
     if (evt.target.classList.contains('error')) {
       deleteMessage();
     }
-  };
+  }
 
   errorButton.addEventListener('click', deleteMessage);
   document.addEventListener('keydown', onModalEscKeydown);
@@ -64,19 +66,21 @@ const addSuccessMessage = () => {
 
   const deleteMessage = () => {
     bodyElement.querySelector('.success').remove();
+    document.removeEventListener('keydown', onModalEscKeydown);
+    window.removeEventListener('click', onWindowClick);
   };
 
-  const onModalEscKeydown = (evt) => {
+  function onModalEscKeydown (evt) {
     if (isEscapeKey(evt)) {
       deleteMessage();
     }
-  };
+  }
 
-  const onWindowClick = (evt) => {
+  function onWindowClick (evt) {
     if (evt.target.classList.contains('success')) {
       deleteMessage();
     }
-  };
+  }
 
   successButton.addEventListener('click', deleteMessage);
   document.addEventListener('keydown', onModalEscKeydown);

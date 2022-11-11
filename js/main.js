@@ -1,7 +1,4 @@
 import './thumbnails.js';
-// import {
-//   createPhotos
-// } from './data.js';
 import {
   renderThumbnails
 } from './thumbnails.js';
@@ -23,6 +20,4 @@ setUserFormSubmit(onCloseModalElement);
 addFormListener();
 
 
-getData((photos) => {
-  renderThumbnails(photos);
-}, () => showAlert('Не удалось получить данные с сервера. Попробуйте перезагрузить страницу.'));
+getData((photos) => renderThumbnails(photos), showAlert);

@@ -86,7 +86,10 @@ const setUserFormSubmit = (onSuccess) => {
           onSuccess(addSuccessMessage());
           unblockSubmitButton();
         },
-        () => addErrorMessage(),
+        () => {
+          addErrorMessage();
+          unblockSubmitButton();
+        },
         new FormData(evt.target),
       );
     }
@@ -105,7 +108,6 @@ const addFormListener = () => {
 
 export {
   addFormListener,
-  inputValueScaleElement,
   onCloseModalElement,
   setUserFormSubmit
 };
