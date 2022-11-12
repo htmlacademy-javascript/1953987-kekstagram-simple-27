@@ -4,9 +4,8 @@ import {
 
 const ALERT_SHOW_TIME = 5000;
 
-const bodyElement = document.body;
-const errorTemplate = document.body.querySelector('#error').content;
-const successTemplate = document.body.querySelector('#success').content;
+const errorTemplate = document.body.querySelector('#error').content.querySelector('.error');
+const successTemplate = document.body.querySelector('#success').content.querySelector('.success');
 
 
 const showAlert = (message) => {
@@ -30,42 +29,12 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const addErrorMessage = () => {
-  const errorElement = errorTemplate.cloneNode(true);
-  errorElement.style = 'z-index: 2';
-  const errorButton = errorElement.querySelector('.error__button');
-  bodyElement.append(errorElement);
+const showMessage = (template, rootClass) => {
+  const messageElement = template.cloneNode(true);
+  const button = messageElement.querySelector(`.${rootClass}__button`);
 
   const deleteMessage = () => {
-    bodyElement.querySelector('.error').remove();
-    document.removeEventListener('keydown', onModalEscKeydown);
-    window.removeEventListener('click', onWindowClick);
-  };
-
-  function onModalEscKeydown (evt) {
-    if (isEscapeKey(evt)) {
-      deleteMessage();
-    }
-  }
-  function onWindowClick (evt) {
-    if (evt.target.classList.contains('error')) {
-      deleteMessage();
-    }
-  }
-
-  errorButton.addEventListener('click', deleteMessage);
-  document.addEventListener('keydown', onModalEscKeydown);
-  window.addEventListener('click', onWindowClick);
-};
-
-const addSuccessMessage = () => {
-  const successElement = successTemplate.cloneNode(true);
-  successElement.style = 'z-index: 2';
-  const successButton = successElement.querySelector('.success__button');
-  bodyElement.append(successElement);
-
-  const deleteMessage = () => {
-    bodyElement.querySelector('.success').remove();
+    messageElement.remove();
     document.removeEventListener('keydown', onModalEscKeydown);
     window.removeEventListener('click', onWindowClick);
   };
@@ -77,18 +46,24 @@ const addSuccessMessage = () => {
   }
 
   function onWindowClick (evt) {
-    if (evt.target.classList.contains('success')) {
+    if (evt.target === messageElement) {
       deleteMessage();
     }
   }
 
-  successButton.addEventListener('click', deleteMessage);
+  button.addEventListener('click', deleteMessage);
   document.addEventListener('keydown', onModalEscKeydown);
   window.addEventListener('click', onWindowClick);
+
+  document.body.append(messageElement);
 };
+
+const showSuccessMessage = () => showMessage(successTemplate, 'success');
+const showErrorMessage = () => showMessage(errorTemplate, 'error');
+
 
 export {
   showAlert,
-  addErrorMessage,
-  addSuccessMessage
+  showSuccessMessage,
+  showErrorMessage
 };

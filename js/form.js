@@ -5,8 +5,8 @@ import {
   resetScale
 } from './scale.js';
 import {
-  addErrorMessage,
-  addSuccessMessage
+  showSuccessMessage,
+  showErrorMessage
 } from './form-message.js';
 import {
   resetEffect
@@ -83,11 +83,11 @@ const setUserFormSubmit = (onSuccess) => {
       blockSubmitButton();
       sendData(
         () => {
-          onSuccess(addSuccessMessage());
+          onSuccess(showSuccessMessage());
           unblockSubmitButton();
         },
         () => {
-          addErrorMessage();
+          showErrorMessage();
           unblockSubmitButton();
         },
         new FormData(evt.target),
