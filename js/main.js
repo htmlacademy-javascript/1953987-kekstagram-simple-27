@@ -1,15 +1,23 @@
 import './thumbnails.js';
 import {
-  createPhotos
-} from './data.js';
-import {
   renderThumbnails
 } from './thumbnails.js';
 import {
-  addFormListener
+  addFormListener,
+  onCloseModalElement,
+  setUserFormSubmit
 } from './form.js';
 
-const photos = createPhotos();
-renderThumbnails(photos);
+import {
+  getData
+} from './api.js';
 
+import {
+  showAlert
+} from './form-message.js';
+
+setUserFormSubmit(onCloseModalElement);
 addFormListener();
+
+
+getData((photos) => renderThumbnails(photos), showAlert);

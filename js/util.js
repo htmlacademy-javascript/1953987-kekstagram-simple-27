@@ -11,6 +11,7 @@ const getRandomIntInclusive = function (a, b) {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+
 export {
   getRandomIntInclusive,
   isEscapeKey

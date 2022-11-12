@@ -8,7 +8,7 @@ const formElement = document.querySelector('.img-upload__form');
 const sliderContainerElement = document.querySelector('.img-upload__effect-level');
 
 
-const EFFECT = {
+const EFFECTS = {
 
   none: {
     min: 0,
@@ -52,7 +52,7 @@ const EFFECT = {
   },
 };
 
-const DEFAULT_EFFECT = EFFECT['none'];
+const DEFAULT_EFFECT = EFFECTS['none'];
 let chosenEffect = DEFAULT_EFFECT;
 
 const isDefault = () => chosenEffect === DEFAULT_EFFECT;
@@ -78,7 +78,7 @@ const onFormChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  chosenEffect = EFFECT[evt.target.value];
+  chosenEffect = EFFECTS[evt.target.value];
   imageElement.classList.add(`effects__preview--${evt.target.value}`);
   updateSlider();
 };
@@ -111,7 +111,7 @@ noUiSlider.create(sliderElement, {
 });
 updateSlider();
 
-formElement.addEventListener('change', (onFormChange));
+formElement.addEventListener('change', onFormChange);
 sliderElement.noUiSlider.on('update', onSliderUpdate);
 
 export {

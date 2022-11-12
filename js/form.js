@@ -5,8 +5,15 @@ import {
   resetScale
 } from './scale.js';
 import {
+  showSuccessMessage,
+  showErrorMessage
+} from './form-message.js';
+import {
   resetEffect
 } from './effect.js';
+import {
+  sendData
+} from './api.js';
 
 const bodyElement = document.querySelector('body');
 const formElement = bodyElement.querySelector('.img-upload__form');
@@ -18,6 +25,7 @@ const scaleSizeElement = formElement.querySelector('.scale__control');
 const effectLevelElement = formElement.querySelector('.effect-level__value');
 const effectRadioNoneElement = formElement.querySelector('#effect-none');
 const inputValueScaleElement = formElement.querySelector('.scale__control--value');
+const submitButtonElement = formElement.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__text',
@@ -56,14 +64,37 @@ const onCloseModalElement = () => {
   document.removeEventListener('keydown', onModalEscKeydown);
 };
 
-const onFormSubmit = (evt) => {
-  const isValid = pristine.validate();
-
-  if (!isValid) {
-    evt.preventDefault();
-  }
+const blockSubmitButton = () => {
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Публикую...';
 };
 
+const unblockSubmitButton = () => {
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess(showSuccessMessage());
+          unblockSubmitButton();
+        },
+        () => {
+          showErrorMessage();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
 
 const addFormListener = () => {
 
@@ -72,10 +103,11 @@ const addFormListener = () => {
   uploadCloseElement.addEventListener('click', (onCloseModalElement));
 
   pristine.addValidator(commentElement, validateComment, 'От 20 до 140 символов');
-  formElement.addEventListener('submit', onFormSubmit);
+
 };
 
 export {
   addFormListener,
-  inputValueScaleElement
+  onCloseModalElement,
+  setUserFormSubmit
 };
