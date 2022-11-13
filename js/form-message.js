@@ -4,8 +4,8 @@ import {
 
 const ALERT_SHOW_TIME = 5000;
 
-const errorTemplate = document.body.querySelector('#error').content.querySelector('.error');
-const successTemplate = document.body.querySelector('#success').content.querySelector('.success');
+const errorTemplateElement = document.body.querySelector('#error').content.querySelector('.error');
+const successTemplateElement = document.body.querySelector('#success').content.querySelector('.success');
 
 
 const showAlert = (message) => {
@@ -58,8 +58,8 @@ const showMessage = (template, rootClass) => {
   document.body.append(messageElement);
 };
 
-const showSuccessMessage = () => showMessage(successTemplate, 'success');
-const showErrorMessage = () => showMessage(errorTemplate, 'error');
+const showSuccessMessage = () => showMessage(successTemplateElement, 'success');
+const showErrorMessage = () => showMessage(errorTemplateElement, 'error');
 
 
 export {
