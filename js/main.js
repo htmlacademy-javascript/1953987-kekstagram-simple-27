@@ -15,6 +15,7 @@ import {
 import {
   showAlert
 } from './form-message.js';
+import './avatar.js';
 
 setUserFormSubmit(onCloseModalElement);
 addFormListener();
