@@ -3,9 +3,7 @@ import {
   renderThumbnails
 } from './thumbnails.js';
 import {
-  addFormListener,
-  onCloseModalElement,
-  setUserFormSubmit
+  addFormListener
 } from './form.js';
 
 import {
@@ -17,7 +15,6 @@ import {
 } from './form-message.js';
 import './avatar.js';
 
-setUserFormSubmit(onCloseModalElement);
 addFormListener();
 
 

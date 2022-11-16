@@ -15,6 +15,9 @@ import {
   sendData
 } from './api.js';
 
+const MIN_COMMENT = 20;
+const MAX_COMMENT = 140;
+
 const bodyElement = document.querySelector('body');
 const formElement = bodyElement.querySelector('.img-upload__form');
 const commentElement = formElement.querySelector('.text__description');
@@ -33,25 +36,16 @@ const pristine = new Pristine(formElement, {
   errorTextTag: 'div',
 });
 
-const validateComment = (value) => value.length >= 20 && value.length <= 140;
+const validateComment = (value) => value.length >= MIN_COMMENT && value.length <= MAX_COMMENT;
 
-const onModalEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    editorPhotoElement.classList.add('hidden');
-    bodyElement.classList.remove('modal-open');
-  }
-};
-
-const onOpenModalElement = () => {
+const openUploadWindow = () => {
   editorPhotoElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   inputValueScaleElement.value = '100%';
-
-  document.addEventListener('keydown', onModalEscKeydown);
+  addEscListenerOnESC();
 };
 
-const onCloseModalElement = () => {
+const closeUploadWindow = () => {
   editorPhotoElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   resetScale();
@@ -61,7 +55,16 @@ const onCloseModalElement = () => {
   scaleSizeElement.value = '100%';
   effectLevelElement.value = '';
   effectRadioNoneElement.checked = true;
-  document.removeEventListener('keydown', onModalEscKeydown);
+  removeEscListenerOnESC();
+  const errorDiv = formElement.querySelector('.pristine-error');
+  errorDiv.textContent = '';
+};
+
+const onEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeUploadWindow();
+  }
 };
 
 const blockSubmitButton = () => {
@@ -74,40 +77,48 @@ const unblockSubmitButton = () => {
   submitButtonElement.textContent = 'Опубликовать';
 };
 
-const setUserFormSubmit = (onSuccess) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
 
-    if (isValid) {
-      blockSubmitButton();
-      sendData(
-        () => {
-          onSuccess(showSuccessMessage());
-          unblockSubmitButton();
-        },
-        () => {
-          showErrorMessage();
-          unblockSubmitButton();
-        },
-        new FormData(evt.target),
-      );
-    }
-  });
+const sendForm = (data) => {
+  const isValid = pristine.validate();
+
+  if (isValid) {
+    blockSubmitButton();
+    sendData(
+      () => {
+        closeUploadWindow();
+        showSuccessMessage();
+        unblockSubmitButton();
+      },
+      () => {
+        showErrorMessage();
+        unblockSubmitButton();
+        removeEscListenerOnESC();
+      },
+      data,
+    );
+  }
 };
 
 const addFormListener = () => {
-
-  uploadElement.addEventListener('change', (onOpenModalElement));
-
-  uploadCloseElement.addEventListener('click', (onCloseModalElement));
+  uploadElement.addEventListener('change', (openUploadWindow));
+  uploadCloseElement.addEventListener('click', (closeUploadWindow));
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendForm(new FormData(evt.target));
+  });
 
   pristine.addValidator(commentElement, validateComment, 'От 20 до 140 символов');
-
 };
+
+function removeEscListenerOnESC() {
+  document.removeEventListener('keydown', onEscKeydown);
+}
+
+function addEscListenerOnESC() {
+  document.addEventListener('keydown', onEscKeydown);
+}
 
 export {
   addFormListener,
-  onCloseModalElement,
-  setUserFormSubmit
+  addEscListenerOnESC
 };

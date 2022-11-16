@@ -1,6 +1,9 @@
 import {
   isEscapeKey
 } from './util.js';
+import {
+  addEscListenerOnESC
+} from './form.js';
 
 const ALERT_SHOW_TIME = 5000;
 
@@ -35,11 +38,12 @@ const showMessage = (template, rootClass) => {
 
   const deleteMessage = () => {
     messageElement.remove();
-    document.removeEventListener('keydown', onModalEscKeydown);
+    document.removeEventListener('keydown', onEscKeydown);
     window.removeEventListener('click', onWindowClick);
+    addEscListenerOnESC();
   };
 
-  function onModalEscKeydown (evt) {
+  function onEscKeydown (evt) {
     if (isEscapeKey(evt)) {
       deleteMessage();
     }
@@ -52,7 +56,7 @@ const showMessage = (template, rootClass) => {
   }
 
   button.addEventListener('click', deleteMessage);
-  document.addEventListener('keydown', onModalEscKeydown);
+  document.addEventListener('keydown', onEscKeydown);
   window.addEventListener('click', onWindowClick);
 
   document.body.append(messageElement);
