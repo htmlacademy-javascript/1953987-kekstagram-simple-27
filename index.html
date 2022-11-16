@@ -27,7 +27,7 @@
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
+              <input type="file" id="upload-file" accept="image/png, image/jpeg, image/jpg" class="img-upload__input  visually-hidden" name="filename" required>
               <label for="upload-file" class="img-upload__label  img-upload__control">Загрузить</label>
             </fieldset>
 
@@ -115,7 +115,7 @@
 
                 <!-- Добавление комментария к изображению -->
                 <fieldset class="img-upload__text text">
-                  <textarea class="text__description" required minlength="20" maxlength="140" name="description"
+                  <textarea class="text__description" required name="description"
                     placeholder="Ваш комментарий..."></textarea>
                 </fieldset>
 

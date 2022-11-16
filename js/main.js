@@ -5,7 +5,7 @@ import {
 import {
   addFormListener,
   onCloseModalElement,
-  setUserFormSubmit
+  sendFormData
 } from './form.js';
 
 import {
@@ -17,7 +17,7 @@ import {
 } from './form-message.js';
 import './avatar.js';
 
-setUserFormSubmit(onCloseModalElement);
+sendFormData(onCloseModalElement);
 addFormListener();
 
 
