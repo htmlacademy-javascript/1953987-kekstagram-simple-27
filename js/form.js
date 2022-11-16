@@ -38,14 +38,14 @@ const pristine = new Pristine(formElement, {
 
 const validateComment = (value) => value.length >= MIN_COMMENT && value.length <= MAX_COMMENT;
 
-const onInputChange = () => {
+const openUploadWindow = () => {
   editorPhotoElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   inputValueScaleElement.value = '100%';
   addEscListenerOnESC();
 };
 
-const onCloseModalElement = () => {
+const closeUploadWindow = () => {
   editorPhotoElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   resetScale();
@@ -63,7 +63,7 @@ const onCloseModalElement = () => {
 const onEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    onCloseModalElement();
+    closeUploadWindow();
   }
 };
 
@@ -77,37 +77,37 @@ const unblockSubmitButton = () => {
   submitButtonElement.textContent = 'Опубликовать';
 };
 
-const sendFormData = (onSuccess) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
 
-    if (isValid) {
-      blockSubmitButton();
-      sendData(
-        () => {
-          onSuccess(showSuccessMessage());
-          unblockSubmitButton();
-        },
-        () => {
-          showErrorMessage();
-          removeEscListenerOnESC();
-          unblockSubmitButton();
-        },
-        new FormData(evt.target),
-      );
-    }
-  });
+const sendForm = (data) => {
+  const isValid = pristine.validate();
+
+  if (isValid) {
+    blockSubmitButton();
+    sendData(
+      () => {
+        closeUploadWindow();
+        showSuccessMessage();
+        unblockSubmitButton();
+      },
+      () => {
+        showErrorMessage();
+        unblockSubmitButton();
+        removeEscListenerOnESC();
+      },
+      data,
+    );
+  }
 };
 
-pristine.addValidator(commentElement, validateComment, 'От 20 до 140 символов');
-
 const addFormListener = () => {
+  uploadElement.addEventListener('change', (openUploadWindow));
+  uploadCloseElement.addEventListener('click', (closeUploadWindow));
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendForm(new FormData(evt.target));
+  });
 
-  uploadElement.addEventListener('change', (onInputChange));
-
-  uploadCloseElement.addEventListener('click', (onCloseModalElement));
-
+  pristine.addValidator(commentElement, validateComment, 'От 20 до 140 символов');
 };
 
 function removeEscListenerOnESC() {
@@ -120,7 +120,5 @@ function addEscListenerOnESC() {
 
 export {
   addFormListener,
-  onCloseModalElement,
-  sendFormData,
   addEscListenerOnESC
 };
