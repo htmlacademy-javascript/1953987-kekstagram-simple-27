@@ -38,12 +38,12 @@ const showMessage = (template, rootClass) => {
 
   const deleteMessage = () => {
     messageElement.remove();
-    document.removeEventListener('keydown', onEscKeydown);
+    document.removeEventListener('keydown', onDocumentKeydown);
     window.removeEventListener('click', onWindowClick);
     addEscListenerOnESC();
   };
 
-  function onEscKeydown (evt) {
+  function onDocumentKeydown (evt) {
     if (isEscapeKey(evt)) {
       deleteMessage();
     }
@@ -56,7 +56,7 @@ const showMessage = (template, rootClass) => {
   }
 
   button.addEventListener('click', deleteMessage);
-  document.addEventListener('keydown', onEscKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
   window.addEventListener('click', onWindowClick);
 
   document.body.append(messageElement);

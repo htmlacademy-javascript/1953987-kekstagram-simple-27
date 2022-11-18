@@ -3,7 +3,7 @@ import {
   renderThumbnails
 } from './thumbnails.js';
 import {
-  addFormListener
+  initUploadForm
 } from './form.js';
 
 import {
@@ -15,7 +15,7 @@ import {
 } from './form-message.js';
 import './avatar.js';
 
-addFormListener();
+initUploadForm();
 
 
 getData((photos) => renderThumbnails(photos), showAlert);
