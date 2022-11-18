@@ -56,11 +56,10 @@ const closeUploadWindow = () => {
   effectLevelElement.value = '';
   effectRadioNoneElement.checked = true;
   removeEscListenerOnESC();
-  const errorDiv = formElement.querySelector('.pristine-error');
-  errorDiv.textContent = '';
+  pristine.reset();
 };
 
-const onEscKeydown = (evt) => {
+const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeUploadWindow();
@@ -99,7 +98,7 @@ const sendForm = (data) => {
   }
 };
 
-const addFormListener = () => {
+const initUploadForm = () => {
   uploadElement.addEventListener('change', (openUploadWindow));
   uploadCloseElement.addEventListener('click', (closeUploadWindow));
   formElement.addEventListener('submit', (evt) => {
@@ -107,18 +106,18 @@ const addFormListener = () => {
     sendForm(new FormData(evt.target));
   });
 
-  pristine.addValidator(commentElement, validateComment, 'От 20 до 140 символов');
+  pristine.addValidator(commentElement, validateComment, `От ${MIN_COMMENT} до ${MAX_COMMENT} символов`);
 };
 
 function removeEscListenerOnESC() {
-  document.removeEventListener('keydown', onEscKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown);
 }
 
 function addEscListenerOnESC() {
-  document.addEventListener('keydown', onEscKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
 }
 
 export {
-  addFormListener,
+  initUploadForm,
   addEscListenerOnESC
 };
